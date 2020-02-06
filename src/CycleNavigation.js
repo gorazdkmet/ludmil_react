@@ -1,25 +1,23 @@
-import React,{ useContext } from 'react'
+import React from 'react'
 import { GalleryNavigationWrapper, NavigationSectionWrapper, CycleNavLinkWrapper } from './AppWrappers.js'
-import { ActiveArtContext } from './App.js'
 
-export default function CycleNavigation({artSpec, artUni}) {
+export default function CycleNavigation({ labels, labelsKeys, activeField:fieldKey }) {
    
-   const activeArt = useContext(ActiveArtContext)
-   const fieldUni = activeArt.field;
-   const cyclesSpec = artSpec.cycles[fieldUni];
-   const cyclesUni = artUni.cycles[fieldUni];
-   const years = artSpec.years;
+
+   const cycles = labels.cycles[fieldKey];
+   const cyclesKeys = labelsKeys.cycles[fieldKey];
+   const years = labels.years;
    
     return (
             < GalleryNavigationWrapper >
-               < NavigationSectionWrapper field={fieldUni} > 
+               < NavigationSectionWrapper field={fieldKey} > 
                {
-                  cyclesSpec.map( (cycleSpec, i) => (
+                  cycles.map( (cycle, i) => (
                      <CycleNavLink 
                         key={i}
-                        fieldUni={fieldUni}
-                        cycleUni={cyclesUni[i]}
-                        cycleSpec={cycleSpec}
+                        fieldKey={fieldKey}
+                        cycleKey={cyclesKeys[i]}
+                        cycle={cycle}
                         years={years}
                         />
                   ))
@@ -29,16 +27,16 @@ export default function CycleNavigation({artSpec, artUni}) {
     )
 }
 
-const CycleNavLink = ({cycleSpec, cycleUni,  fieldUni, years}) => {
+const CycleNavLink = ({ cycle, cycleKey, fieldKey, years }) => {
    
    const dataAttr = {
-      ['data-' + fieldUni]: cycleUni
+      ['data-' + fieldKey]: cycleKey
    }
-   const year = years[fieldUni][cycleUni];
+   const year = years[fieldKey][cycleKey];
    
    return (
       < CycleNavLinkWrapper dataAttr={dataAttr} >
-         < LinkName value={cycleSpec} />
+         < LinkName value={cycle} />
          < LinkDate value={year} />
       </ CycleNavLinkWrapper >
    )

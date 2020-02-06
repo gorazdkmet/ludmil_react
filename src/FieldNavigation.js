@@ -1,15 +1,15 @@
 import React from 'react'
 import { FieldNavigationWrapper } from './AppWrappers.js'
 
-export default function FieldNavigation({ artSpec, onClick, artUni }) {
+export default function FieldNavigation({ labels, labelsKeys, onClick }) {
     
     return (
         <FieldNavigationWrapper>
         {   
-            artSpec.fields.map( (fieldSpec, i) => ( 
+            labels.fields.map( (field, i) => ( 
                 < FieldLink key={i}
-                            fieldSpec={fieldSpec}
-                            fieldUni={artUni.fields[i]}
+                            field={field}
+                            fieldKey={labelsKeys.fields[i]}
                             setFieldOnClick={onClick.field}
                             /> 
             ))
@@ -18,14 +18,14 @@ export default function FieldNavigation({ artSpec, onClick, artUni }) {
     )
 }
 
-function FieldLink({ fieldSpec, fieldUni, setFieldOnClick }) {
+function FieldLink({ field, fieldKey, setFieldOnClick }) {
 
-    const classVal = fieldSpec === 'lang' ? 'field-nav__lang' : 'field-nav__item';
+    const classVal = field === 'lang' ? 'field-nav__lang' : 'field-nav__item';
     
     return (
         <>
-            <span className={classVal} data-field={fieldUni} {...setFieldOnClick} >
-                {fieldSpec}
+            <span className={classVal} data-field={fieldKey} {...setFieldOnClick} >
+                {field}
             </span>
             <span>
                 /

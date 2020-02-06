@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 
-export const useFetchData = (defaultData, dataPath) => {
+export const useFetch = (defaultData, dataPath) => {
 
-	const [ data, setData ] = useState(defaultData)
+    const [ data, setData ] = useState(defaultData)    
 
-	useEffect( () => {
+    useEffect( () => {
         fetch(dataPath)
             .then( res => res.json() )
 			.then(
@@ -12,36 +12,30 @@ export const useFetchData = (defaultData, dataPath) => {
 			err => { errorWhileFetching(err) }
             )
     
-        const saveDataToState = (res) => {
+        const saveDataToState = (res) => {            
             setData({
                 ...defaultData,
                 art: res,
                 isLoading: false
                 })
-            
-            if ( Object.keys(res).length === 0) { 
-                errorWhileFetching('empty art') 
-            }
         }
     
         const errorWhileFetching = (err) => {
-            console.error(err);
             setData({
                 ...defaultData,
                 isLoading: false,
                 isError: true
             })
+            console.error(err);
         }
+    }, [dataPath, defaultData])
 
-
-	}, [dataPath, defaultData])
-
-	return [ data, setData ]
+	return data
 }
 
 export const useArt = (defaultArt) => {
     
-    const [ pic, setPic ] = useState(defaultArt.pic)
+    const [ imgId, setImgId ] = useState(defaultArt.imgId)
     const [ cycle, setCycle ] = useState(defaultArt.cycle)
     const [ field, setField ] = useState(defaultArt.field)
 
@@ -57,19 +51,28 @@ export const useArt = (defaultArt) => {
         onClick: (e) => {
             e.preventDefault();
             const newField = e.currentTarget.dataset.field;
-            console.log(newField)
             setField(newField)
+        }
+    }
+
+    const setImgIdOnClick = {
+        onClick: (e) => {
+            e.preventDefault();
+            const newImgId = Number(e.currentTarget.id);
+            setImgId(newImgId)
         }
     }
 
     return [
         {
-            pic, cycle, field
+            imgId, cycle, field
         },
         {
             field: setFieldOnClick,
-            cycle: setCycleOnClick
-        }
+            cycle: setCycleOnClick,
+            imgId: setImgIdOnClick
+        },
+        setImgId
     ]
 
 }

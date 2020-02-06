@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState } from 'react';
 import './App.css';
 import { AppWrapper } from './AppWrappers.js'
-import { useFetchData, useArt } from './appHooks'
+import { useFetch, useArt } from './appHooks.js'
 import CycleNavigation from './CycleNavigation.js'
 import FieldNavigation from './FieldNavigation.js'
 import ArtistName from './ArtistName.js'
@@ -10,7 +10,7 @@ import Gallery from './Gallery.js'
 import Dots from './Dots.js'
 import Copyright from './Copyright.js'
 
-const dataPath = './data/data.json'
+const dataPath = './data/data.json';
 
 const defaultData = {
 	art: {},
@@ -19,7 +19,7 @@ const defaultData = {
 }
 
 const defaultArt = {
-  pic: 0,
+  imgId: 0,
   cycle: 'transfig',
   field: 'paint'
 }
@@ -28,41 +28,61 @@ const defaultAppLang = 'sk'
 
 function App() {
 
+  const data = useFetch(defaultData, dataPath)
   const [ lang ] = useState(defaultAppLang)
-  const [ data ] = useFetchData(defaultData, dataPath)
-  const [ activeArt, setActiveArtOnClick ] = useArt(defaultArt)
+  const [ activeArt, setActiveArtOnClick, setImgId] = useArt(defaultArt)
 
-  const imgSrc = `./data/img/${activeArt.field}/${activeArt.cycle}/${activeArt.pic}.jpg`;
-  const specLabels = data.art[lang];
-  const uniLabels = data.art.uni;
-  
-  if (data.isLoading) { return <div><span>Loadind...</span></div> }
+  const activeImgId = activeArt.imgId;
+  const activeCycle = activeArt.cycle;
+  const activeField = activeArt.field;
+
+  if (data.isLoading) { return <div><span>Loadind, plase wait...</span></div> }
+  if (data.isError) { return <div><span>Sorry there was a problem witch your network</span></div> }
+
+  const imgSrc = `./data/img/${activeField}/${activeCycle}/${activeImgId}.jpg`;
+  const labels = data.art[lang];  
+  const labelsKeys = data.art.keys;
+  const activeCaptions = labels.captions[activeField][activeCycle];
+  const activeCycleLen = Number(activeCaptions.length) - 1;
+
+  const jumpImg = (dir) => {
+
+      if ( dir === "next" ) { 
+        setImgId(activeImgId === activeCycleLen ? 0 : activeImgId + 1)
+      }
+      if ( dir === "prev" ) {
+        setImgId(activeImgId === 0 ? activeCycleLen : activeImgId - 1)
+      }
+  } 
 
   return (
     < AppWrapper >
-      < ActiveArtContext.Provider value={activeArt} >
         < CycleNavigation 
-          artSpec={specLabels}
-          artUni={uniLabels}
+          activeField={activeField}
+          labels={labels}
+          labelsKeys={labelsKeys}
           />
         < FieldNavigation 
           onClick={setActiveArtOnClick}
-          artSpec={specLabels}
-          artUni={uniLabels}
+          labels={labels}
+          labelsKeys={labelsKeys}
           />
         < ArtistName />
         < Jumper
+          jumpImg={jumpImg}
           />
-        < Gallery 
+        < Gallery
           src={imgSrc}
           />
-        < Dots />
+        < Dots
+          jumpImg={jumpImg}
+          onClick={setActiveArtOnClick}
+          captions={activeCaptions}
+          activeImgId={activeImgId}
+          />
         < Copyright />
-    </ ActiveArtContext.Provider >
   </ AppWrapper >
   )
 }
 
 export default App;
-
-export const ActiveArtContext = React.createContext('sk');

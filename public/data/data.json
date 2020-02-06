@@ -1,5 +1,5 @@
 { 
-	"uni" : {
+	"keys" : {
 		"fields": [ "paint", "sound", "video", "more", "lang" ],
 		"cycles": {
 			"paint": [ "transfig", "transform", "allocation", "deposits", "oecesis", "denatura" ],
