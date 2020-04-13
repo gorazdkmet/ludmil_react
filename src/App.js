@@ -1,5 +1,7 @@
 import React, {useState } from 'react';
 import './App.css';
+
+import { dataPath ,defaultAppLang, defaultData, defaultArt } from "./CONSTANTS";
 import { AppWrapper } from './AppWrappers.js'
 import { useFetch, useArt } from './appHooks.js'
 import CycleNavigation from './CycleNavigation.js'
@@ -9,22 +11,6 @@ import Jumper from './Jumper.js'
 import Gallery from './Gallery.js'
 import Dots from './Dots.js'
 import Copyright from './Copyright.js'
-
-const dataPath = './data/data.json';
-
-const defaultData = {
-	art: {},
-	isError: false,
-	isLoading: true
-}
-
-const defaultArt = {
-  imgId: 0,
-  cycle: 'transfig',
-  field: 'paint'
-}
-
-const defaultAppLang = 'sk'
 
 function App() {
 
@@ -40,29 +26,29 @@ function App() {
   if (data.isError) { return <div><span>Sorry there was a problem witch your network</span></div> }
 
   const imgSrc = `./data/img/${activeField}/${activeCycle}/${activeImgId}.jpg`;
-  const labels = data.art[lang];  
+  const labels = data.art[lang];
   const labelsKeys = data.art.keys;
   const activeCaptions = labels.captions[activeField][activeCycle];
   const activeCycleLen = Number(activeCaptions.length) - 1;
 
   const jumpImg = (dir) => {
 
-      if ( dir === "next" ) { 
+      if ( dir === "next" ) {
         setImgId(activeImgId === activeCycleLen ? 0 : activeImgId + 1)
       }
       if ( dir === "prev" ) {
         setImgId(activeImgId === 0 ? activeCycleLen : activeImgId - 1)
       }
-  } 
+  }
 
   return (
     < AppWrapper >
-        < CycleNavigation 
+        < CycleNavigation
           activeField={activeField}
           labels={labels}
           labelsKeys={labelsKeys}
           />
-        < FieldNavigation 
+        < FieldNavigation
           onClick={setActiveArtOnClick}
           labels={labels}
           labelsKeys={labelsKeys}
