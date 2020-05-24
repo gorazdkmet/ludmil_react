@@ -191,6 +191,10 @@ a:active {
 	letter-spacing: 0.2em;
 }
 
+.gallery-navigation--hidden {
+	display: none;
+}
+
 .gallery-nav__section {
 	padding: 20px;
 }
@@ -450,11 +454,16 @@ a:active {
 			direction: rtl;
 		}
 
+		.gallery-navigation--hidden {
+			display: unset;
+		}
+
 		.gallery-nav__section {
 			padding: unset;
 		}
 
 		.gallery-nav__item {
+			cursor: pointer;
 			margin: unset;
 			white-space: nowrap;
 			margin-bottom: 1em;
@@ -462,7 +471,7 @@ a:active {
 		}
 
 		.gallery-nav__imgdate::before {
-			content: "/ ";
+			content: " / ";
 		}
 
 		.gallery-nav__item--selected::after,
@@ -473,7 +482,6 @@ a:active {
 		}
 
 		.gallery-nav__item--selected > .gallery-nav__imgdate {
-		/* .gallery-nav__item:hover > .gallery-nav__imgdate  { */
 			display: inline;
 		}
 

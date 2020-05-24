@@ -1,21 +1,28 @@
 {
-  "name": "ludmil_react",
+  "name": "Ludmil",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "firebase": "^7.14.0",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-scripts": "3.3.1"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
+  },
+  "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "classnames": "^2.2.6",
+    "firebase": "^7.14.0",
+    "i18next": "^19.4.4",
+    "i18next-browser-languagedetector": "^4.1.1",
+    "prettier": "^2.0.5",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-firebase-hooks": "^2.1.1",
+    "react-i18next": "^11.4.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "3.3.1"
   },
   "eslintConfig": {
     "extends": "react-app"

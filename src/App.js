@@ -1,74 +1,77 @@
-import React, {useState } from 'react';
-import './App.css';
+// external
+import React, { useEffect, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
 
-import { dataPath ,defaultAppLang, defaultData, defaultArt } from "./CONSTANTS";
-import { AppWrapper } from './AppWrappers.js'
-import { useFetch, useArt } from './appHooks.js'
-import CycleNavigation from './CycleNavigation.js'
-import FieldNavigation from './FieldNavigation.js'
-import ArtistName from './ArtistName.js'
-import Jumper from './Jumper.js'
-import Gallery from './Gallery.js'
-import Dots from './Dots.js'
-import Copyright from './Copyright.js'
+// components
+import {
+  CycleNavigation,
+  FieldNavigation,
+  Jumper,
+  ArtistName,
+  Copyright,
+  GalleryContainer,
+  Dots,
+} from "./components/main";
+
+// others
+import { paramsToState } from "./helpers/paramsToState";
+import { useFirebaseStorage } from "./hooks/useFirebaseStorage";
+import { useViewportWidth } from "./hooks/useViewportWidth";
+import "./App.css";
+import { useTranslation } from "react-i18next";
 
 function App() {
+  const params = useParams();
+  const location = useLocation();
 
-  const data = useFetch(defaultData, dataPath)
-  const [ lang ] = useState(defaultAppLang)
-  const [ activeArt, setActiveArtOnClick, setImgId] = useArt(defaultArt)
+  const [currentArt, setCurrentArt] = useState(paramsToState(params));
+  const [set, loading, error] = useFirebaseStorage(
+    currentArt.field,
+    currentArt.cycle
+  );
+  const [isMobile, width] = useViewportWidth(document.body.clientWidth);
+  const [navHidden, setNavHidden] = useState(true);
+  const { t } = useTranslation(`more`);
 
-  const activeImgId = activeArt.imgId;
-  const activeCycle = activeArt.cycle;
-  const activeField = activeArt.field;
+  useEffect(() => {
+    setCurrentArt(paramsToState(params));
+  }, [location.pathname]);
 
-  if (data.isLoading) { return <div><span>Loadind, plase wait...</span></div> }
-  if (data.isError) { return <div><span>Sorry there was a problem witch your network</span></div> }
-
-  const imgSrc = `./data/img/${activeField}/${activeCycle}/${activeImgId}.jpg`;
-  const labels = data.art[lang];
-  const labelsKeys = data.art.keys;
-  const activeCaptions = labels.captions[activeField][activeCycle];
-  const activeCycleLen = Number(activeCaptions.length) - 1;
-
-  const jumpImg = (dir) => {
-
-      if ( dir === "next" ) {
-        setImgId(activeImgId === activeCycleLen ? 0 : activeImgId + 1)
+  const toggleCycleNav = (clicked) => {
+    if (isMobile) {
+      if (clicked === params.field) {
+        setNavHidden(!navHidden);
+        return;
       }
-      if ( dir === "prev" ) {
-        setImgId(activeImgId === 0 ? activeCycleLen : activeImgId - 1)
-      }
-  }
+      setNavHidden(false);
+    }
+  };
 
+  const { cycle, field, id } = currentArt;
   return (
-    < AppWrapper >
-        < CycleNavigation
-          activeField={activeField}
-          labels={labels}
-          labelsKeys={labelsKeys}
-          />
-        < FieldNavigation
-          onClick={setActiveArtOnClick}
-          labels={labels}
-          labelsKeys={labelsKeys}
-          />
-        < ArtistName />
-        < Jumper
-          jumpImg={jumpImg}
-          />
-        < Gallery
-          src={imgSrc}
-          />
-        < Dots
-          jumpImg={jumpImg}
-          onClick={setActiveArtOnClick}
-          captions={activeCaptions}
-          activeImgId={activeImgId}
-          />
-        < Copyright />
-  </ AppWrapper >
-  )
+    <div className="site">
+      <CycleNavigation field={field} active={cycle} navHidden={navHidden} />
+      <FieldNavigation toggleCycleNav={toggleCycleNav} />
+      <ArtistName name={t(`artist`)} />
+      <GalleryContainer
+        id={id}
+        field={field}
+        cycle={cycle}
+        set={set}
+        isMobile={isMobile}
+        isLoading={loading}
+      />
+      <Jumper
+        id={id}
+        cycle={cycle}
+        field={field}
+        set={set}
+        isLoading={loading}
+      />
+      <Dots isLoading={loading} set={set} field={field} cycle={cycle} id={id} />
+      <Copyright name={t(`author`)} link={`https://github.com/gorazdkmet`} />
+    </div>
+  );
 }
 
 export default App;
