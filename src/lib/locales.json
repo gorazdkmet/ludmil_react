@@ -110,7 +110,34 @@
         }
       }
     },
-    "texts": {},
+    "intro": {
+      "paint": {
+        "transfig": {
+          "title": "Transfigurácia 2019",
+          "content": "Umenie je individuálnym prejavom kreatívnej schopnosti duše - jedna z foriem osvojovania si sveta človekom. Je predmetom skúmania estetiky, umenovedy a filozofie umenia.\n\nUmenie môže znamenať aj používanie istých duchovných kvalít alebo manuálnej zručnosti pri realizácii určitého diela s cieľom urobiť svet umelo krajším a lepším. Umenie je forma maximálneho bytia človeka spočívajúca v cieľavedomom pretváraní škaredého alebo esteticky neúčinného či menej účinného na krásu v koncentrovanej podobe. "
+        },
+        "transform": {
+          "title": "Transformácia",
+          "content": "2019"
+        },
+        "allocation": {
+          "title": "Vymedzenie",
+          "content": "2019"
+        },
+        "deposits": {
+          "title": "Sedimenty",
+          "content": "2018"
+        },
+        "oecesis": {
+          "title": "Zakorenenie",
+          "content": "2017"
+        },
+        "denatura": {
+          "title": "Denatura",
+          "content": "2016"
+        }
+      }
+    },
     "more": {
       "artist": "Ľudmila Machová",
       "author": "gorazd"
@@ -119,8 +146,7 @@
   "en": {
     "captions": {
       "paint": {
-        "transfig": [
-        ]
+        "transfig": []
       }
     },
     "texts": {},

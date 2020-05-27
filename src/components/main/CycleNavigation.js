@@ -1,17 +1,22 @@
-import React, { useState } from "react";
-import { ALL_CYCLES, MAIN_BLOCKS } from "../../consts/constants";
+import { DATA } from "../../consts/constants";
+
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 import classNames from "classnames";
-import { pathFor } from "../../helpers/pathFor";
 
-const CycleNavigation = ({ field, active, navHidden }) => {
+import { pathFor } from "../../helpers/pathFor";
+import { useArt } from "hooks";
+
+const CycleNavigation = ({ navHidden }) => {
+
+  const { field, cycle }  = useArt();
   const { t } = useTranslation("titles");
   const history = useHistory();
 
-  const onClick = (active, cycle) => {
+  const handleCycleChange = (cycle) => {
     history.push(pathFor(field, cycle));
-  };
+  }
 
   return (
     <nav
@@ -21,19 +26,19 @@ const CycleNavigation = ({ field, active, navHidden }) => {
     >
       <div className="gallery-nav__section">
         <ul>
-          {ALL_CYCLES[field.toUpperCase()].map((cycle, i) => (
+          {DATA[field].cycles.map((c, i) => (
             <div
               key={i}
               className={classNames("gallery-nav__item", {
-                "gallery-nav__item--selected": active === cycle,
+                "gallery-nav__item--selected": cycle === c,
               })}
               onClick={() => {
-                onClick(active, cycle);
+                handleCycleChange(c);
               }}
             >
-              <span>{t(`${MAIN_BLOCKS.CYCLE}.${field}.${cycle}.name`)}</span>
+              <span>{t(`cycle.${field}.${c}.name`)}</span>
               <span className="gallery-nav__imgdate">
-                {t(`${MAIN_BLOCKS.CYCLE}.${field}.${cycle}.year`)}
+                {t(`cycle.${field}.${c}.year`)}
               </span>
             </div>
           ))}

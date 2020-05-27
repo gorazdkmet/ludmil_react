@@ -1,8 +1,8 @@
 import React from 'react'
 
-const ArtistName = ({name}) => (
+const ArtistName = ({name, onClick}) => (
     <hgroup className="artist-name">
-        <span>{name}</span>
+        <span onClick={onClick}>{name}</span>
     </hgroup>
 )
 

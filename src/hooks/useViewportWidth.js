@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react'
 
-export const useViewportWidth = (firstLoadWidth) => {
-    const [width, setWidth] = useState(firstLoadWidth)
+const useViewportWidth = () => {
+    const [width, setWidth] = useState(document.body.clientWidth)
     const breakPoint = 900
 
     useEffect(() => {
@@ -9,7 +9,7 @@ export const useViewportWidth = (firstLoadWidth) => {
         return () => {
             window.removeEventListener('resize', updateScreenSize)
         }
-    }, [])
+    }, )
 
     const updateScreenSize = () => {
         const w = document.body.clientWidth
@@ -26,3 +26,6 @@ export const useViewportWidth = (firstLoadWidth) => {
     const isMobile = width < breakPoint ? true : false
     return [ isMobile, width ]
 }
+
+export default useViewportWidth
+

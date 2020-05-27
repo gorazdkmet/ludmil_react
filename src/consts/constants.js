@@ -3,44 +3,38 @@ export const SUPPORTED_LANG = {
   EN: "en",
 };
 
-export const MAIN_BLOCKS = {
-  FIELD: "field",
-  CYCLE: "cycle",
+export const LANDING_ART = {
+  field: "paint",
+  cycle: "transfig",
+  id: 0,
 };
 
-export const DEFAULT = [
-  {
-    FIELD: "paint",
-    IMG_NUM: 0,
-    CYCLE: "transfig",
+export const DATA = {
+  paint: {
+    default_id: 0,
+    default_cycle: "transfig",
+    cycles: [
+      "transfig",
+      "transform",
+      "allocation",
+      "deposits",
+      "oecesis",
+      "denatura",
+    ],
   },
-  {
-    FIELD: "sound",
-    IMG_NUM: 0,
-    CYCLE: "sound0",
+  sound: {
+    default_id: 0,
+    default_cycle: "sound0",
+    cycles: ["sound1", "sound2", "sound3", "sound4", "sound5"],
   },
-  {
-    FIELD: "video",
-    IMG_NUM: 0,
-    CYCLE: "video0",
+  video: {
+    default_id: 0,
+    default_cycle: "video0",
+    cycles: ["video1", "video2", "video3", "video4", "video5"],
   },
-  {
-    FIELD: "more",
-    IMG_NUM: 0,
-    CYCLE: "more0",
+  more: {
+    default_id: 0,
+    default_cycle: "more0",
+    cycles: ["more1", "more2", "more3", "more4", "more5"],
   },
-];
-
-export const ALL_CYCLES = {
-  PAINT: [
-    "transfig",
-    "transform",
-    "allocation",
-    "deposits",
-    "oecesis",
-    "denatura",
-  ],
-  SOUND: ["sound1", "sound2", "sound3", "sound4", "sound5"],
-  VIDEO: ["video1", "video2", "video3", "video4", "video5"],
-  MORE: ["more1", "more2", "more3", "more4", "more5"],
 };

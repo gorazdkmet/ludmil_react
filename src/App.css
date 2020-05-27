@@ -130,7 +130,7 @@ html, body, .site {
 
 body {
 	font-size: var(--base-font-size);
-	font-family: Courier, monospace;
+	font-family: "Courier New", monospace;
 	font-weight: 400;
 	color: var(--main-font-color);
 	text-align: center;
@@ -157,11 +157,13 @@ a:active {
 ******************************************************************************/
 /* Artist name */
 .artist-name {
+	cursor: pointer;
 	display: block;
 	text-align: left;
 	margin: 20px;
 	margin-right: 20em;
 	font-size: var(--smaller-font-size);
+	color: black;
 }
 
 /* Field Navigation */
@@ -185,7 +187,6 @@ a:active {
 	background-color: var(--secondary-gray-color);
 	font-size: var(--small-font-size);
 	text-transform: uppercase;
-	font-family: sans-serif;
 	color: white;
 	line-height: 2.5em;
 	letter-spacing: 0.2em;
@@ -320,7 +321,7 @@ a:active {
 	.artist-name,
 	.field-navigation,
 	.gallery-navigation {
-		font-size: var(--small-font-size);
+		font-size: var(--base-font-size);
 	}
 
 	.field-nav__container {
@@ -415,7 +416,7 @@ a:active {
 		.artist-name {
 			text-align: left;
 			margin: 0;
-			font-size: var(--base-font-size);
+			font-size: var(--biggest-font-size);
 		}
 
 		/* fields-navigation <--- ************************************************************************************************/
@@ -428,7 +429,12 @@ a:active {
 			grid-area: fields-navigation;
 			text-align: right;
 			white-space: nowrap;
-			font-size: var(--base-font-size);
+			font-size: var(--bigger-font-size);
+		}
+
+		.field-nav__item {
+			cursor: pointer;
+			margin: 0 5px;
 		}
 
 		.field-nav__item:active {
@@ -443,10 +449,9 @@ a:active {
 		/* gallery navigation   <--- ************************************************************************************************/
 		.gallery-navigation {
 			grid-area: gallery-navigation;
-			font-family: Courier, monospace;
 			background-color: white;
 			color: var(--main-font-color);
-			font-size: var(--small-font-size);
+			font-size: var(--base-font-size);
 			line-height: 1.5em;
 			letter-spacing: 2.5px;
 			text-transform: capitalize;
@@ -555,7 +560,7 @@ a:active {
 			padding: unset;
 			padding-top: 2em;
 			font-style: italic;
-			font-size: var(--smaller-font-size);
+			font-size: var(--small-font-size);
 			vertical-align: center;
 		}
 
@@ -580,8 +585,7 @@ a:active {
 
 
 		.gallery__intro h1 {
-			font-family: Courier;
-			font-size: 1rem;
+			font-size: var(--bigger-font-size);
 		}
 
 		.gallery__intro img {
@@ -608,8 +612,7 @@ a:active {
 		}
 
 		.intro__text {
-			font-family: verdana;
-			font-size: 0.9rem;
+			font-size: var(--base-font-size);
 			flex: 1 1 25rem;
 		}
 

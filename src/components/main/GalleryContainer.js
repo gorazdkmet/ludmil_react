@@ -1,18 +1,11 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-
-const GalleryItem = ({ caption, src, isLoading }) => (
-  <li className="gallery__item">
-    <figure className="gallery__figure">
-      {isLoading ? (
-        <span>Content is loading please wait...</span>
-      ) : (
-        <img alt="img" className="gallery__image" src={src} />
-      )}
-      <figcaption className="gallery__caption">{caption}</figcaption>
-    </figure>
-  </li>
-);
+import { useViewportWidth } from "hooks";
+import { useArt } from "hooks";
+import {
+  useFirebaseStorageSet,
+  useFirebaseStorageImg,
+} from "../../hooks/useFirebaseStorage";
 
 const GalleryListWrapper = (props) => (
   <main className="gallery">
@@ -22,33 +15,79 @@ const GalleryListWrapper = (props) => (
   </main>
 );
 
-export default function GalleryContainer({
-  id,
-  cycle,
-  field,
-  set,
-  isMobile,
-  isLoading,
-}) {
+const GalleryIntro = ({ title, content }) => {
+  const { t } = useTranslation("intro");
+  return (
+    <li className="gallery__intro">
+      <div className="arrow intro__arrow--back">←</div>
+      <div className="intro__text">
+        <h1>{t(title)}</h1>
+        <p>{t(content)}</p>
+      </div>
+      <div className="arrow intro__arrow--next">→</div>
+    </li>
+  );
+};
+
+const GalleryItem = ({ loadingMode, caption, url }) => {
+  const { field, cycle, id } = useArt();
+  const [src, loading] = useFirebaseStorageImg(field, cycle, id);
   const { t } = useTranslation("captions");
+
+  return (
+    <li className="gallery__item">
+      <figure className="gallery__figure">
+        {loading ? (
+            <>
+                Loading...
+            </>
+        ) : (
+          <img
+            alt={caption}
+            loading={loadingMode}
+            className="gallery__image"
+            src={url || src}
+          />
+        )}
+        <figcaption className="gallery__caption">{t(caption)}</figcaption>
+      </figure>
+    </li>
+  );
+};
+
+const GalleryItems = ({ hash }) => {
+  const { field, cycle } = useArt();
+  const [set, loading] = useFirebaseStorageSet(field, cycle);
+
+  return (
+    <>
+      <GalleryIntro
+        title={`${field}.${cycle}.title`}
+        content={`${field}.${cycle}.content`}
+      />
+      {set.map((url, i) => (
+        <GalleryItem
+          key={i}
+          url={url}
+          hash={hash}
+          caption={`${field}.${cycle}.${i}`}
+          loadingMode="lazy"
+          isLoading={loading}
+        />
+      ))}
+    </>
+  );
+};
+
+export default function GalleryContainer() {
+  const [isMobile] = useViewportWidth();
 
   return (
     <GalleryListWrapper>
       {isMobile ? (
-        set.map((src, i) => (
-          <GalleryItem
-            key={i}
-            src={src}
-            caption={t(`${field}.${cycle}.${i}`)}
-            isLoading={isLoading}
-          />
-        ))
+        <GalleryItems />
       ) : (
-        <GalleryItem
-          src={set[id]}
-          caption={t(`${field}.${cycle}.${id}`)}
-          isLoading={isLoading}
-        />
+        <GalleryItem loadingMode="eager" />
       )}
     </GalleryListWrapper>
   );
